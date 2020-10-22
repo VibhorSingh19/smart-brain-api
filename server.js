@@ -11,7 +11,7 @@ const database={
      	id:'123',
      	name:'Vibhor',
      	email:'vibhor@gmail.com',
-     	password:'cookies',
+     	password:'vibhor',
      	entries:0,
      	joined:new Date()
      },
@@ -36,7 +36,7 @@ app.post('/signin',(req,res)=>{
      }
      else
      {
-     	res.status(400).json("unable to connect");
+        res.status(400).json("unable to connect");
 	}
 })
 app.post('/register',(req,res)=>{
