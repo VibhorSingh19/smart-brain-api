@@ -4,10 +4,10 @@ const bcrypt=require('bcrypt-nodejs');
 const cors= require('cors');
 const app=express();
 const knex=require('knex');
-
-
+const Clarifai=require('clarifai');
 app.use(bodyParser.json());
 app.use(cors());
+
 
 const db=knex({
   client: 'pg',
@@ -68,9 +68,14 @@ app.post('/signin',(req,res)=>{
 })
 app.post('/register',(req,res)=>{
 
-	const {name,email,password}=req.body;
-	
-    const hash = bcrypt.hashSync(password);
+    const {name,email,password}=req.body;
+    if(!name || !email || !password)
+    {
+        res.status(400).json('Wrong inputs..');
+    }
+    else
+    {
+      const hash = bcrypt.hashSync(password);
     db.transaction(trx=>{
 
         trx.insert({
@@ -94,8 +99,9 @@ app.post('/register',(req,res)=>{
         .then(trx.commit)
         .catch(trx.rollback)
     })
-	.catch(err=>res.status(400).json('Unable to register...'))
-})
+    .catch(err=>res.status(400).json('Unable to register...'))  
+    }
+    })
 app.get('/profile/:id',(req,res)=>
 {
 	const {id}=req.params;
@@ -113,6 +119,7 @@ app.get('/profile/:id',(req,res)=>
 })
 app.put('/image',(req,res)=>{
 	const {id}=req.body;
+    console.log(id);
 	db('users').where('id', '=', id)
   .increment('entries',1)
   .returning('entries')
@@ -120,6 +127,21 @@ app.put('/image',(req,res)=>{
   	res.json(entries[0]);
   })
   .catch(err=>res.status(400).json('Unable to get entries'))
+})
+
+const app1 = new Clarifai.App({
+ apiKey: '6744cbc8104940eba90468d428f3383f'
+});
+
+app.post('/imageurl',(req,res)=>{
+
+   console.log(req.body.input);
+    app1.models
+    .predict(Clarifai.FACE_DETECT_MODEL,req.body.input)
+    .then(data=>{
+        res.json(data);
+    })
+    .catch(err=>res.status(400).json('Unable to fetch API.'))
 })
 
 /*

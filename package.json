@@ -15,6 +15,8 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
+    "clarifai": "^2.9.1",
+    "clarify": "^2.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "knex": "^0.21.12",
