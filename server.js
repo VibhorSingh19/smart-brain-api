@@ -12,7 +12,7 @@ app.use(cors());
 const db=knex({
   client: 'pg',
   connection: {
-    host : '127.0.0.1',
+    host : 'postgresql-angular-66995',
     user : 'postgres',
     password : 'Vibh0r',
     database : 'smartbrain'
