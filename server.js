@@ -12,10 +12,8 @@ app.use(cors());
 const db=knex({
   client: 'pg',
   connection: {
-    host : 'postgresql-angular-66995',
-    user : 'postgres',
-    password : 'Vibh0r',
-    database : 'smartbrain'
+    connectionString : process.env.DATABASE_URL,
+    ssl:true,
   }
 });
 //db.select('*').from('users').then(data=>{
