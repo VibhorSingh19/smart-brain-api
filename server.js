@@ -8,12 +8,16 @@ const Clarifai=require('clarifai');
 app.use(bodyParser.json());
 app.use(cors());
 
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 const db=knex({
   client: 'pg',
   connection: {
-    connectionString : process.env.DATABASE_URL,
-    ssl:true,
+    //connectionString : process.env.DATABASE_URL,
+    //ssl:true,
+          connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false
+      }
   }
 });
 //db.select('*').from('users').then(data=>{
@@ -152,5 +156,5 @@ bcrypt.compare("veggies", hash, function(err, res) {
 });
 */
 app.listen(process.env.PORT||3000,()=>{
-	console.log("Running in port ${process.env.PORT}....");
+	console.log("Running in port ${process.env.PORT}");
 })
