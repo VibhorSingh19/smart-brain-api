@@ -45,7 +45,7 @@ const database={
 }
 app.get('/',(req,res)=>{
 
-	res.send(database.user);
+	res.send("connected..");
 })
 app.post('/signin',(req,res)=>{
      db.select('email','hash').from('login')
